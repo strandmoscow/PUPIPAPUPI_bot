@@ -1,7 +1,7 @@
 import logging
 from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import ContextTypes, CommandHandler, ConversationHandler, MessageHandler, filters
-from sympy import Symbol
+from sympy import Symbol, latex
 from sympy.solvers.inequalities import solve_univariate_inequality
 import matplotlib.pyplot as plt
 
@@ -132,19 +132,42 @@ async def solution(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
     sol = 0
     if ineq_dict["type"] == 0:
-        sol = solve_univariate_inequality(f(x, a, b, c, d, m, n) > 0, x, continuous=True)
+        sol = solve_univariate_inequality(f(x, a, b, c, d, m, n) > 0, x, relational=False)
     if ineq_dict["type"] == 1:
-        sol = solve_univariate_inequality(f(x, a, b, c, d, m, n) < 0, x)
+        sol = solve_univariate_inequality(f(x, a, b, c, d, m, n) < 0, x, relational=False)
     if ineq_dict["type"] == 2:
-        sol = solve_univariate_inequality(f(x, a, b, c, d, m, n) >= 0, x)
+        sol = solve_univariate_inequality(f(x, a, b, c, d, m, n) >= 0, x, relational=False)
     if ineq_dict["type"] == 3:
-        sol = solve_univariate_inequality(f(x, a, b, c, d, m, n) <= 0, x)
-    sol_string = str(sol)
+        sol = solve_univariate_inequality(f(x, a, b, c, d, m, n) <= 0, x, relational=False)
+
+    ### Создание области отрисовки
+    fig = plt.figure()
+    ax = fig.add_axes([0, 0, 1, 1])
+    ax.set_axis_off()
+
+    ### Отрисовка формулы
+    t = ax.text(0.5, 0.5, '$' + latex(sol) + '$',
+                horizontalalignment='center',
+                verticalalignment='center',
+                fontsize=20, color='black')
+
+    ### Определение размеров формулы
+    ax.figure.canvas.draw()
+    bbox = t.get_window_extent()
+
+    # Установка размеров области отрисовки
+    fig.set_size_inches(bbox.width / 160, bbox.height / 80)  # dpi=80
+
+    ### Отрисовка или сохранение формулы в файл
+    # plt.show()
+    # plt.savefig('test.svg')
+    plt.savefig('inequality/solution.png', dpi=300)
 
     await update.message.reply_text(
-        sol_string,
+        "Решение"
     )
 
+    await update.message.reply_photo(open("inequality/solution.png", "rb"))
 
     return ConversationHandler.END
 
