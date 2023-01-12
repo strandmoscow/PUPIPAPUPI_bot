@@ -93,13 +93,13 @@ async def solution(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     x = Symbol('x', real=True)
 
     if ineq_dict["type"] == 0:
-        tex = f'$\\frac{{ ( x - {a} )^{{ {n + 1} }} \\cdot (x - {b})^{{ {m} }} }}{{ (x + {{ {c} }})^{{ {n} }} \\cdot (x - {{ {d} }})^{{ {m + 1} }} }} > 0$'
+        tex = f'$\\frac{{ ( x - {a} )^{{ {n + 1} }} \\cdot (x + {b})^{{ {m} }} }}{{ (x + {{ {c} }})^{{ {n} }} \\cdot (x - {{ {d} }})^{{ {m + 1} }} }} > 0$'
     if ineq_dict["type"] == 1:
-        tex = f'$\\frac{{ ( x - {a} )^{{ {n + 1} }} \\cdot (x - {b})^{{ {m} }} }}{{ (x + {{ {c} }})^{{ {n} }} \\cdot (x - {{ {d} }})^{{ {m + 1} }} }} < 0$'
+        tex = f'$\\frac{{ ( x - {a} )^{{ {n + 1} }} \\cdot (x + {b})^{{ {m} }} }}{{ (x + {{ {c} }})^{{ {n} }} \\cdot (x - {{ {d} }})^{{ {m + 1} }} }} < 0$'
     if ineq_dict["type"] == 2:
-        tex = f'$\\frac{{ ( x - {a} )^{{ {n + 1} }} \\cdot (x - {b})^{{ {m} }} }}{{ (x + {{ {c} }})^{{ {n} }} \\cdot (x - {{ {d} }})^{{ {m + 1} }} }} \geqslant 0$'
+        tex = f'$\\frac{{ ( x - {a} )^{{ {n + 1} }} \\cdot (x + {b})^{{ {m} }} }}{{ (x + {{ {c} }})^{{ {n} }} \\cdot (x - {{ {d} }})^{{ {m + 1} }} }} \geqslant 0$'
     if ineq_dict["type"] == 3:
-        tex = f'$\\frac{{ ( x - {a} )^{{ {n + 1} }} \\cdot (x - {b})^{{ {m} }} }}{{ (x + {{ {c} }})^{{ {n} }} \\cdot (x - {{ {d} }})^{{ {m + 1} }} }} \leqslant 0$'
+        tex = f'$\\frac{{ ( x - {a} )^{{ {n + 1} }} \\cdot (x + {b})^{{ {m} }} }}{{ (x + {{ {c} }})^{{ {n} }} \\cdot (x - {{ {d} }})^{{ {m + 1} }} }} \leqslant 0$'
 
     ### Создание области отрисовки
     fig = plt.figure()
@@ -156,7 +156,7 @@ async def solution(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     bbox = t.get_window_extent()
 
     # Установка размеров области отрисовки
-    fig.set_size_inches(bbox.width / 160, bbox.height / 80)  # dpi=80
+    fig.set_size_inches(bbox.width / 80, bbox.height / 80)  # dpi=80
 
     ### Отрисовка или сохранение формулы в файл
     # plt.show()
