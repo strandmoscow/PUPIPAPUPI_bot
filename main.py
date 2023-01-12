@@ -19,6 +19,12 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     str = "Привет/Шалом/Салам/Барэв дзэс/Хэллоу\nЯ что-то умею! Смотри список команд или тыкай /help"
     await context.bot.send_message(chat_id=update.effective_chat.id, text=str)
 
+async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(
+        "Смотри, что есть в этом боте:\n",
+        "\\inequality - посчитать неравенство из задания."
+    )
+
 
 def main() -> None:
     """Run the bot."""
@@ -27,9 +33,11 @@ def main() -> None:
 
     # Add handler
     start_handler = CommandHandler('start', start)
+    help_handler = CommandHandler('help', help)
     inequality_handler = inequality.inequality_handler
 
     application.add_handler(start_handler)
+    application.add_handler(help_handler)
     application.add_handler(inequality_handler)
 
     # Run the bot until the user presses Ctrl-C
